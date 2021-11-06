@@ -37,6 +37,9 @@ bool JkModbus::parse_jk_modbus_byte_(uint8_t byte) {
   this->rx_buffer_.push_back(byte);
   const uint8_t *raw = &this->rx_buffer_[0];
 
+  // @FIXME
+  return false;
+
   // Byte 0: Start sequence (0x4E)
   if (at == 0)
     return true;
@@ -149,6 +152,20 @@ void JkModbus::read_registers(uint8_t function, uint8_t address) {
   frame[20] = crc >> 0;
 
   this->write_array(frame, 21);
+  this->flush();
+}
+
+void JkModbus::query_balancer_status() {
+  uint8_t frame[7];
+  frame[0] = 0x55;
+  frame[1] = 0xAA;
+  frame[2] = 0x01;
+  frame[3] = 0xFF;
+  frame[4] = 0x00;
+  frame[5] = 0x00;
+  frame[6] = 0xFF;
+
+  this->write_array(frame, 7);
   this->flush();
 }
 

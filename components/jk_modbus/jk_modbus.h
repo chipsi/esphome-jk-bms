@@ -22,6 +22,7 @@ class JkModbus : public uart::UARTDevice, public Component {
 
   void send(uint8_t function, uint8_t address, uint8_t value);
   void read_registers(uint8_t function, uint8_t address);
+  void query_balancer_status();
 
  protected:
   bool parse_jk_modbus_byte_(uint8_t byte);
@@ -39,6 +40,7 @@ class JkModbusDevice {
 
   void send(int8_t function, uint8_t address, uint8_t value) { this->parent_->send(function, address, value); }
   void read_registers(uint8_t function, uint8_t address) { this->parent_->read_registers(function, address); }
+  void query_balancer_status() { this->parent_->query_balancer_status(); }
 
  protected:
   friend JkModbus;
